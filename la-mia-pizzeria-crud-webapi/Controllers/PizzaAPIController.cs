@@ -49,7 +49,7 @@ namespace la_mia_pizzeria_crud_webapi.Controllers
         // restituire la lista di tutte le nostre pizze
         // (deve essere possibile passare un parametro di filtro e restituire le pizze il cui titolo contiene il filtro inviato)
         [HttpPut("{id}")]
-        public IActionResult UpdatePost(int id, [FromBody] Pizza Pizza)
+        public IActionResult UpdatePizza(int id, [FromBody] Pizza Pizza)
         {
             var oldPizza = PizzaManager.GetPizza(id);
             if (oldPizza == null)
@@ -59,7 +59,7 @@ namespace la_mia_pizzeria_crud_webapi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Deleteizza(int id)
+        public IActionResult DeletePizza(int id)
         {
             bool found = PizzaManager.DeletePizza(id);
             if (found)
