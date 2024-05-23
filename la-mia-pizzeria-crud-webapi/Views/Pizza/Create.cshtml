@@ -1,0 +1,86 @@
+﻿@using la_mia_pizzeria_crud_webapi.Models
+@model PizzaFormModel
+
+@{
+    ViewData["Title"] = "Dettagli pizza";
+    Layout = "_MioLayout";
+}
+
+<div class="container text-center">
+
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <h1>Crea Nuova Pizza</h1>
+
+            <h4>Pizza</h4>
+            <hr />
+
+            <form asp-action="Create" enctype="multipart/form-data" method="post" style="background-color:forestgreen">
+                
+                <div class="form-group">
+                    <strong>Nome:</strong>
+                    <input asp-for="Pizza.Nome" class="form-control" />
+                    <span asp-validation-for="Pizza.Nome" class="text-warning"></span>
+                </div>
+                <div class="form-group">
+                    <strong>Descrizione:</strong>
+                    <textarea asp-for="Pizza.Descrizione" class="form-control"></textarea>
+                    <span asp-validation-for="Pizza.Descrizione" class="text-warning"></span>
+                </div>
+                <div class="form-group">
+                    <strong>Prezzo:</strong>
+                    <input asp-for="Pizza.Prezzo" class="form-control" />
+                    <span asp-validation-for="Pizza.Prezzo" class="text-warning"></span>
+                </div>
+                <div class="form-group">
+                    <strong>Foto:</strong>
+                    <input type="file" name="foto" asp-for="Pizza.Foto" class="form-control" />
+                    <span asp-validation-for="Pizza.Foto" class="text-warning"></span>
+                </div>
+                <div class="mb-3">
+                    <strong>Tipologia:</strong>
+                    <select asp-for="Pizza.Categoryid" rows="10" class="d-block w-100">
+                        <option value="" disabled>Seleziona una categoria</option>
+                        
+                        @foreach (Category categoria in Model.Categories)
+                        {
+                           
+                            <!-- Visualizzo la categoria se presente-->
+                            @if (Model.Pizza.Categoryid == categoria.id)
+                            {
+                                <option value="@categoria.id" selected>@categoria.Nome</option>
+                            }
+                            else
+                            {
+                                <option value="@categoria.id">@categoria.Nome</option>
+                            }
+                            }
+                    </select>
+                    <span asp-validation-for="Pizza.Categoryid" class="text-warning"></span>
+
+                </div>
+                <div class="mb-3">
+                    <strong>Ingredienti:</strong>
+                  
+                    @for (int i = 0; i < Model.Ingredients.Count; i++)
+                    {
+                        <div>
+                            <input type="checkbox" name="SelectedIngredients" value="@Model.Ingredients[i].Value"
+                            @(Model.SelectedIngredients.Contains(Model.Ingredients[i].Value) ? "checked" : "") />
+                            @Model.Ingredients[i].Text
+                        </div>
+                    }
+
+                   
+                  
+                </div>
+                <div class="form-group" style="margin:10px 0px 0px 5px">
+                    <input type="submit" value="Crea" class="btn btn-primary" />
+                </div>
+            </form>
+        <button class="btn btn-danger"><b><a href="@Url.Action("Index", "Pizza")">Indietro</a></b></button>
+        </div>
+    </div>
+</div>
+
+

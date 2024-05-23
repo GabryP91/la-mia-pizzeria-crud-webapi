@@ -1,0 +1,114 @@
+﻿
+@model IEnumerable<Pizza>
+
+@{
+    ViewData["Title"] = "Dettagli pizza";
+    Layout = "_MioLayout";
+}
+
+<div class="text-center">
+
+
+    <!--<audio controls loop autoplay id="audioPlayer" src="../audio/GigiDAgostino-GigisTime.mp3" type="audio/mpeg"></audio>
+    <script>
+        // Ottieni l'elemento audio
+        var audioPlayer = document.getElementById('audioPlayer');
+
+        // Imposta il volume al 50%
+        audioPlayer.volume = 0.1; // Imposta il volume a metà della sua capacità massima
+    </script>-->
+
+    <div>
+        
+        <h1 class="title">Ammazza che Pizza!!</h1>
+
+        <table class="table table-success">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Immagine</th>
+                    <th>Prezzo</th>
+                    <th>Descrizione</th>
+                    <th>Modifica</th>
+                    
+                    <th>Categoria</th>
+                    <th>Ingredienti</th>
+                    @if (User.IsInRole("ADMIN"))
+                    {
+                        <th>Elimina</th>
+                    }
+                    
+                </tr>
+            </thead>
+            <tbody>
+
+                @if (!Model.Any())
+                {
+                    <p>Non ci sono pizze disponibili.</p>
+                }
+                else
+                {
+                    foreach (var pizza in Model)
+                    {
+                        <tr>
+                            <td><mark>@pizza.Nome</mark></td>
+                            <td><img src="@Url.Content(pizza.Foto)" alt="@pizza.Nome" style="max-width: 100px; max-height: 100px;" /></td>
+                            <td><mark><b>@pizza.Prezzo €</b></mark></td>
+                            <!--Collegamento pagina details-->
+                            <td><mark><b><a href="@Url.Action("Details", "Pizza", new { id = pizza.id })">Dettagli</a></b></mark></td>
+                            <!--Collegamento pagina update-->
+                            <td><mark><b><a href="@Url.Action("Update", "Pizza", new { id = pizza.id })">Modifica</a></b></mark></td>
+
+                            <!--Relazione 1 a molti-->
+                            <td><mark>@pizza.Category.Nome</mark></td>
+
+                          
+                            <!--Relazione molti a molti-->
+                            <td>
+                                <mark>
+                                    @if (pizza.Ingredients != null && pizza.Ingredients.Any())
+                                    {
+                                        foreach (var ingrediente in pizza.Ingredients)
+                                        {
+                                            @ingrediente.Nome <br />
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span>Nessun ingrediente</span>
+                                    }
+                                </mark>
+                            </td>
+
+                            @if (User.IsInRole("ADMIN"))
+                            {
+                                <!--Elimina dato-->
+                                <td>
+                                    <form asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.id" method="post">
+                                        @Html.AntiForgeryToken()
+
+                                        <button type="submit" class="btn btn-danger btn-sm"><b>CANCELLA</b></button>
+
+                                    </form>
+                                </td>
+                            }
+                            
+
+                        </tr>
+                    }
+                }
+                
+            </tbody>
+        </table>
+
+       @if (User.IsInRole("ADMIN"))
+        {
+            <button class="btn btn-warning"><b><a href="@Url.Action("Popolate", "Pizza")">Inserimento automatico pizze</a></b></button>
+            <button class="btn btn-success"><b><a href="@Url.Action("Create", "Pizza")">INSERISCI UNA NUOVA PIZZA</a></b></button>
+            <button class="btn btn-warning"><b><a href="@Url.Action("Delete", "Pizza")">ELIMINA LISTA PIZZE</a></b></button>
+        }
+        
+       
+    </div>
+
+</div>
