@@ -110,7 +110,7 @@ namespace la_mia_pizzeria_crud_webapi.Models
         {
             using (PizzaContext db = new PizzaContext())
             {
-                if (PizzaManager.GetAllIngredient() == 0)
+                if (PizzaManager.CountAllPizzas() == 0)
                 { 
                         var ingredienti = new List<Ingredient>
                     {
