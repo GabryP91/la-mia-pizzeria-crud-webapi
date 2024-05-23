@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using la_mia_pizzeria_crud_webapi.Context;
+using System.Text.Json.Serialization;
 namespace la_mia_pizzeria_crud_webapi
 {
     public class Program
@@ -8,8 +9,11 @@ namespace la_mia_pizzeria_crud_webapi
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-                        
+                   
+            //aggiunte
             builder.Services.AddDbContext<PizzaContext>();
+
+            builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()

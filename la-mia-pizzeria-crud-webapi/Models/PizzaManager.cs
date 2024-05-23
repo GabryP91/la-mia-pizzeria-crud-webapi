@@ -1,5 +1,6 @@
 ﻿using la_mia_pizzeria_crud_webapi.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Xml.Linq;
 
 namespace la_mia_pizzeria_crud_webapi.Models
 {
@@ -63,6 +64,19 @@ namespace la_mia_pizzeria_crud_webapi.Models
                     .Include(c => c.Category)
                     .Include(i => i.Ingredients)
                     .FirstOrDefault();
+
+                return pizza;
+            }
+
+        }
+
+        public static List<Pizza> GetPizzaByName(string data)
+        {
+            using (PizzaContext db = new PizzaContext())
+            {
+                //restituiscimi la prima pizza con nome uguale
+                
+                List<Pizza> pizza = db.Pizza.Where(p => p.Nome.Contains(data)).ToList();
 
                 return pizza;
             }
