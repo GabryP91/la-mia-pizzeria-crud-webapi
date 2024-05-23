@@ -101,7 +101,7 @@
             </tbody>
         </table>
 
-       @if (User.IsInRole("ADMIN"))
+        @if (User.IsInRole("ADMIN"))
         {
             <button class="btn btn-warning"><b><a href="@Url.Action("Popolate", "Pizza")">Inserimento automatico pizze</a></b></button>
             <button class="btn btn-success"><b><a href="@Url.Action("Create", "Pizza")">INSERISCI UNA NUOVA PIZZA</a></b></button>

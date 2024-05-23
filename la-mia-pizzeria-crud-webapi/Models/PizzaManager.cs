@@ -110,29 +110,33 @@ namespace la_mia_pizzeria_crud_webapi.Models
         {
             using (PizzaContext db = new PizzaContext())
             {
+                if (PizzaManager.GetAllIngredient() == 0)
+                { 
+                        var ingredienti = new List<Ingredient>
+                    {
+                        new Ingredient {Nome = "Mozzarella", Quantita = 15 },
+                        new Ingredient {Nome = "Pomodoro", Quantita = 50 },
+                        new Ingredient {Nome = "Basilico", Quantita = 5 },
+                        new Ingredient {Nome = "SalamePiccante", Quantita = 15 },
+                        new Ingredient {Nome = "Rucola", Quantita = 25 },
+                        new Ingredient {Nome = "Parmigiano", Quantita = 15 },
+                        new Ingredient {Nome = "Zucchina", Quantita = 20 },
+                        new Ingredient {Nome = "Melanzana", Quantita = 1 },
+                        new Ingredient {Nome = "Bresaola", Quantita = 10 },
+                        new Ingredient {Nome = "FungoPorcino", Quantita = 20 }
+                    };
 
-                var ingredienti = new List<Ingredient>
-                {
-                    new Ingredient {Nome = "Mozzarella", Quantita = 15 },
-                    new Ingredient {Nome = "Pomodoro", Quantita = 50 },
-                    new Ingredient {Nome = "Basilico", Quantita = 5 },
-                    new Ingredient {Nome = "SalamePiccante", Quantita = 15 },
-                    new Ingredient {Nome = "Rucola", Quantita = 25 },
-                    new Ingredient {Nome = "Parmigiano", Quantita = 15 },
-                    new Ingredient {Nome = "Zucchina", Quantita = 20 },
-                    new Ingredient {Nome = "Melanzana", Quantita = 1 },
-                    new Ingredient {Nome = "Bresaola", Quantita = 10 },
-                    new Ingredient {Nome = "FungoPorcino", Quantita = 20 }
-                };
+                    // Verifica se l'ingrediente esiste già, altrimenti lo aggiunge
+                    foreach (var ingrediente in ingredienti)
+                    {
 
-                // Verifica se l'ingrediente esiste già, altrimenti lo aggiunge
-                foreach (var ingrediente in ingredienti)
-                {
+                        db.Ingrediente.Add(ingrediente);
+                    }
 
-                    db.Ingrediente.Add(ingrediente);
+                    db.SaveChanges();
+                
                 }
 
-                db.SaveChanges();
             }
         }
 
@@ -142,8 +146,10 @@ namespace la_mia_pizzeria_crud_webapi.Models
         {
             using (PizzaContext db = new PizzaContext())
             {
+                if (PizzaManager.CountAllPizzas() == 0)
+                {
 
-                // Recupera gli ingredienti necessari dal database
+                    // Recupera gli ingredienti necessari dal database
                 var mozzarella = db.Ingrediente.FirstOrDefault(i => i.Nome == "Mozzarella")?.id.ToString();
                 var pomodoro = db.Ingrediente.FirstOrDefault(i => i.Nome == "Pomodoro")?.id.ToString();
                 var basilico = db.Ingrediente.FirstOrDefault(i => i.Nome == "Basilico")?.id.ToString();
@@ -208,8 +214,7 @@ namespace la_mia_pizzeria_crud_webapi.Models
 
 
 
-                if (PizzaManager.CountAllPizzas() == 0)
-                {
+                
 
                     PizzaManager.InsertPizza(new Pizza("Margherita", "Molto buona", "~/img/margherita.jpg", 8, 1), ingredientsMargherita);
                     PizzaManager.InsertPizza(new Pizza("Diavola", "buona", "~/img/Diavola.jpg", 10.5f, 1), ingredientsDiavola);

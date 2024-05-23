@@ -24,7 +24,7 @@ namespace la_mia_pizzeria_crud_webapi.Controllers
 
         // Action per visualizzare i dettagli di una pizza
 
-        [Authorize(Roles = "Admin,User")]
+        [Authorize(Roles = "ADMIN,USER")]
         public IActionResult Details(int id)
         {
             //restituiscimi la prima pizza con id uguale a quello passato
@@ -51,7 +51,7 @@ namespace la_mia_pizzeria_crud_webapi.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "ADMIN")]
         public IActionResult Delete()
         {
             PizzaManager.DeleteAllPizza();
@@ -64,7 +64,7 @@ namespace la_mia_pizzeria_crud_webapi.Controllers
         // Action che fornisce la view con la form
         // per creare un nuovo post del blog
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "ADMIN")]
         public IActionResult Create()
         {
 
@@ -122,7 +122,7 @@ namespace la_mia_pizzeria_crud_webapi.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "ADMIN")]
         public IActionResult Update(int id)
         {
             // Prendo il post AGGIORNATO da database, non
@@ -186,7 +186,7 @@ namespace la_mia_pizzeria_crud_webapi.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "ADMIN")]
         public IActionResult Delete(int id)
         {
 
