@@ -50,6 +50,11 @@ namespace la_mia_pizzeria_crud_webapi.Controllers
         // (come documento JSON che il framework deserializzerà automaticamente in oggetto di tipo Post)
         public IActionResult CreatePizza([FromBody] Pizza Pizza)
         {
+            /*
+            string imgFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img");
+            string imgFileName = Guid.NewGuid().ToString() + Path.GetExtension(Pizza.Foto.FileName);
+            string imgPath = Path.Combine(imgFolderPath, imgFileName);*/
+
             PizzaManager.InsertPizza(Pizza, null);
             return Ok();
         }
