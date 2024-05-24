@@ -34,9 +34,18 @@ body {
     border-top: 0px !important;
 }
 
+.Logo{
+    width:150px;
+    display:inline-block;
+}
+
+h1{
+    display:inline-block;
+}
+
 a {
     text-decoration: none;
-    color:black;
+    color: black;
 }
 
 form {
