@@ -1,0 +1,113 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="col"><h1>Crea Pizza</h1></div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <form onsubmit="prova(event)" enctype="multipart/form-data" method="post">
+                <div class="mb-3">
+                    <strong>Nome:</strong>
+                    <input id="PizzaNome" type="text" class="d-block w-100" />
+                </div>
+                <div class="mb-3">
+                    <strong>Immagine:</strong>
+                    <input id="Pizzaimg" type="file" class="d-block w-100 is-invalid" />
+                </div>
+                <div class="mb-3">
+                    <strong>Descrizione:</strong>
+                    <input id="PizzaDescrizione" type="text" class="d-block w-100 is-invalid" />
+                </div>
+                <div class="mb-3">
+                    <strong>Prezzo:</strong>
+                    <input id="PizzaPrice" type="number" class="d-block w-100 is-invalid" />
+                </div>
+                <div class="mb-3">
+                    <strong>Categorie:</strong>
+                    <div class="row js_no_pizza d-none">
+                        <div class="col">
+                            <h3>Non ci sono categorie</h3>
+                        </div>
+                    </div>
+                    <select class="js_pizza_table d-none" id="PizzaCategory">
+                        <!-- Qui inseriamo le categorie -->
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <input type="submit" class="btn btn-success" value="Crea" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+    //popolamento categorie
+    function PopolateCat() {
+ 
+        axios
+            .get('../api/PizzaAPI/GetAllCategories')
+            .then((res) => {
+
+                if (res.data.length == 0) // Non abbiamo nessun post
+                {
+                    console.log(res.data);
+                    document.querySelector('.js_no_pizza').classList.remove('d-none');
+                    document.querySelector('.js_pizza_table').classList.add('d-none');
+                }
+                else {
+                    console.log(res.data);
+                    document.querySelector('.js_no_pizza').classList.add('d-none');
+                    var pizzaTable = document.querySelector('.js_pizza_table');
+                    pizzaTable.classList.remove('d-none');
+                    pizzaTable.innerHTML = '';
+                    res.data.forEach((categoria) => {
+                        console.log(categoria);
+                        pizzaTable.innerHTML += `<option value="${categoria.id}">${categoria.nome}</option>`;
+                    });
+                }
+
+            })
+            .catch((error) => {
+                console.error("Errore durante la richiesta API:", error);
+            });
+    }
+
+    
+
+    function prova(pizza) {
+
+        pizza.preventDefault();
+        console.log("ok");
+        var name = document.getElementById('PizzaNome').value;
+        var description = document.getElementById('PizzaDescrizione').value;
+        var price = document.getElementById('PizzaPrice').value;
+        var category = document.getElementById('PizzaCategory').value;
+        var category = document.getElementById('PizzaCategory').value;
+        //var image = document.getElementById('Pizzaimg').value;
+
+        var image = 'null';
+
+        console.log(image);
+
+        axios.post('/api/PizzaAPI/CreatePizza', {
+            Nome: name,
+            Descrizione: description,
+            Prezzo: price,
+            Categoryid: category,
+            Foto:image
+        })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    PopolateCat()
+
+</script>
+

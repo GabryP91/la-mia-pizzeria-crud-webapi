@@ -20,6 +20,14 @@ namespace la_mia_pizzeria_crud_webapi.Controllers
         }
 
         [HttpGet]
+        public IActionResult GetAllCategories()
+        {
+            var Category = PizzaManager.GetAllCategory();
+
+            return Ok(Category);
+        }
+
+        [HttpGet]
         public IActionResult GetPizzaById(int id) // esempio--https://localhost:7077/api/PizzaAPI/GetPizzaByName/GetPizzaById?id=1
         {
             var Pizza = PizzaManager.GetPizza(id);

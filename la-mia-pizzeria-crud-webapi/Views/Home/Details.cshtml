@@ -1,0 +1,58 @@
+﻿
+@model Pizza
+
+@{
+    ViewData["Title"] = "Dettagli pizza";
+    Layout = "_MioLayout";
+}
+
+<div class="text-center">
+
+
+    <!--<audio controls loop autoplay id="audioPlayer" src="../audio/GigiDAgostino-GigisTime.mp3" type="audio/mpeg"></audio>
+    <script>
+        // Ottieni l'elemento audio
+        var audioPlayer = document.getElementById('audioPlayer');
+
+        // Imposta il volume al 50%
+        audioPlayer.volume = 0.1; // Imposta il volume a metà della sua capacità massima
+    </script>-->
+
+    <div>
+        
+        <h1 class="title">Ammazza che Pizza!!</h1>
+
+        <table class="table table-success">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Immagine</th>
+                    <th>Prezzo</th>
+                    <th>Info</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @{
+                        <tr>
+                            <td><mark>@Model.Nome</mark></td>
+
+                            <td><img src="@Url.Content(Model.Foto)" alt="@Model.Nome" style="max-width: 150px; max-height: 150px;" /></td>
+
+                            <td><mark><b>@Model.Prezzo €</b></mark></td>
+                            
+                            <td><mark><b>@Model.Descrizione</b></mark></td>
+
+                        </tr>
+                    }
+                
+                
+            </tbody>
+        </table>
+
+        <button class="btn btn-danger"><b><a href="@Url.Action("Index", "Pizza")">Indietro</a></b></button>
+
+       
+    </div>
+
+</div>

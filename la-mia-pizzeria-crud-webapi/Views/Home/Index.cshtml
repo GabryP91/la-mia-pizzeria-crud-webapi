@@ -1,0 +1,129 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="d-flex justify-content-center align-items-center">
+                <h1>LISTA PIZZE</h1>
+                <input class="js_search" placeholder="Cerca per nome" />
+            </div>
+        </div>
+    </div>
+    <div class="row js_no_pizza d-none">
+        <div class="col">
+            <h3>Non ci sono pizze</h3>
+        </div>
+    </div>
+    <div class="row row-cols-4 js_pizza_table d-none">
+        <!-- Qui inseriamo i post -->
+    </div>
+    <div class="row">
+        <div class="col">
+            <a href="@Url.Action("Create", "Home")" class="btn btn-primary">Crea pizza</a>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+
+    //popolamento
+    function Popolate() {
+        axios
+            .get('api/PizzaAPI/GetAllPizzas')
+            .then((res) => {
+                
+                if (res.data.length == 0) // Non abbiamo nessun post
+                {
+                    console.log(res.data);
+                    document.querySelector('.js_no_pizza').classList.remove('d-none');
+                    document.querySelector('.js_pizza_table').classList.add('d-none');
+                }
+                else {
+                    console.log(res.data);
+                    document.querySelector('.js_no_pizza').classList.add('d-none');
+                    var pizzaTable = document.querySelector('.js_pizza_table');
+                    pizzaTable.classList.remove('d-none');
+                    pizzaTable.innerHTML = '';
+                    res.data.forEach((pizza) => {
+                        console.log(pizza);
+
+                        // Se il tilde è presente, rimuovilo dalla stringa
+                        if (pizza.foto.includes("~")) {
+
+                            pizza.foto = pizza.foto.replace("~", "");
+                        }
+
+                        pizzaTable.innerHTML += `
+                                    <div class="col">
+                                            <img src="${pizza.foto}" style="width: 150px;"/>
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title">${pizza.nome}</h5>
+                                                <p class="card-text">${pizza.descrizione}</p>
+                                            </div>
+                                            <div class="btn btn-danger" onclick="deleteById(${pizza.id})">Elimina</div>
+                                        </div>
+                                    </div>`;
+                    });
+                }
+
+            })
+            .catch((error) => {
+                console.error("Errore durante la richiesta API:", error);
+            });
+    }
+
+    Popolate()
+
+    function loadList(nameFilter) {
+        console.log(nameFilter);
+       
+        axios.get(`api/PizzaAPI/GetPizzaByName/${nameFilter}`).then((res) => {
+                if (res.data.length == 0) // Non abbiamo nessun post
+                {
+                    console.log(res.data);
+                    document.querySelector('.js_no_pizza').classList.remove('d-none');
+                    document.querySelector('.js_pizza_table').classList.add('d-none');
+                }
+                else {
+                console.log(res.data);
+                    document.querySelector('.js_no_pizza').classList.add('d-none');
+                    var pizzaTable = document.querySelector('.js_pizza_table');
+                    pizzaTable.classList.remove('d-none');
+                    pizzaTable.innerHTML = '';
+                    res.data.forEach((pizza) => {
+                        console.log(pizza);
+
+                        // Se il tilde è presente, rimuovilo dalla stringa
+                        if (pizza.foto.includes("~")) {
+                            
+                            pizza.foto = pizza.foto.replace("~", "");
+                        }
+
+                        pizzaTable.innerHTML += `
+                                <div class="col">
+                                        <img src="${pizza.foto}" style="width: 150px;"/>
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title">${pizza.nome}</h5>
+                                            <p class="card-text">${pizza.descrizione}</p>
+                                        </div>
+                                        <div class="btn btn-danger" onclick="deleteById(${pizza.id})">Elimina</div>
+                                    </div>
+                                </div>`;
+                    });
+                }
+            });
+    }
+
+    document.querySelector('.js_search').addEventListener('input', function () {
+        loadList(this.value);
+    });
+
+    function search() {
+        var search = document.querySelector('.js_search').value;
+        console.log(search);
+        loadList(search);
+    }
+
+ </script>
