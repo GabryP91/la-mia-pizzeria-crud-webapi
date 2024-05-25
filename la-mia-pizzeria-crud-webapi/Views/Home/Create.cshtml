@@ -79,30 +79,30 @@
 
     function prova(pizza) {
 
+       
         pizza.preventDefault();
-        console.log("ok");
+
         var name = document.getElementById('PizzaNome').value;
         var description = document.getElementById('PizzaDescrizione').value;
         var price = document.getElementById('PizzaPrice').value;
         var category = document.getElementById('PizzaCategory').value;
-        //var image = document.getElementById('Pizzaimg').value;
+        const image = document.getElementById('Pizzaimg').files[0]; // Ottieni il file dell'immagine
+        var prova = "~/img/";
 
-        var image = 'null';
-
-        console.log(image);
-
-        axios.post('/api/PizzaAPI/CreatePizza', {
-            Nome: name,
-            Descrizione: description,
-            Prezzo: price,
-            Categoryid: category,
-            Foto:image
-        })
-            .then(function (response) {
-                console.log(response);
+        const formData = new FormData(); // Crea un oggetto FormData
+        formData.append('Nome', name); // Aggiungi il campo Nome
+        formData.append('Descrizione', description); // Aggiungi il campo Descrizione
+        formData.append('Prezzo', price); // Aggiungi il campo Prezzo
+        formData.append('Categoryid', category); // Aggiungi il campo Categoryid
+        formData.append('Foto', prova); // Aggiungi il campo Categoryid
+        formData.append('FotoIfile', image); // Aggiungi l'immagine
+       
+        axios.post('/api/PizzaAPI/CreatePizza', formData)
+            .then(response => {
+                console.log(response.data);
             })
-            .catch(function (error) {
-                console.log(error);
+            .catch(error => {
+                console.error('Errore nel caricamento della pizza:', error);
             });
     }
 
