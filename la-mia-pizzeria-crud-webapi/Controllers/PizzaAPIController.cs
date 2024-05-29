@@ -46,27 +46,7 @@ namespace la_mia_pizzeria_crud_webapi.Controllers
             return Ok(Pizza);
         }
 
-        /*[HttpPost]
-        // Post deve essere incluso nella richiesta POST
-        // (come documento JSON che il framework deserializzerà automaticamente in oggetto di tipo Post)
-        public async Task<IActionResult> CreatePizza([FromBody] Pizza Pizza, IFormFile Foto)
-        {
-            
-            string imgFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img");
-            string imgFileName = Guid.NewGuid().ToString() + Path.GetExtension(Foto.FileName);
-            string imgPath = Path.Combine(imgFolderPath, imgFileName);
-
-            using (var stream = new FileStream(imgPath, FileMode.Create))
-            {
-                await Foto.CopyToAsync(stream);
-            }
-
-            Pizza.Foto = "~/img/" + imgFileName;
-
-            PizzaManager.InsertPizza(Pizza, null);
-            return Ok();
-        }*/
-
+       
         [HttpPost]
         public async Task<IActionResult> CreatePizza([FromForm] Pizza pizza, [FromForm] IFormFile FotoIfile)
         {
