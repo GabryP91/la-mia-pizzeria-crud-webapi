@@ -73,6 +73,14 @@
             });
     }
 
+    function deleteById(id) {
+        axios.delete("/api/PizzaApi/DeletePizza/" + id)
+            .then((res) => {
+                // Ricarica la pagina corrente
+                window.location.reload();
+            });
+    }
+
     Popolate()
 
     function loadList(nameFilter) {
